@@ -16,8 +16,13 @@ class ItemFactory extends Factory
      */
     public function definition(): array
     {
+        $price = fake()->numberBetween(1, 100)/10;
+        $quantity = fake()->numberBetween(1, 100);
         return [
-            //
+            "unit_price"=> $price,
+            "quantity" => $quantity,
+            "amount" => $price * $quantity,
+            "description" => fake()->word,
         ];
     }
 }
