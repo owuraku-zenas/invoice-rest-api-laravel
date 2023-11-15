@@ -1,66 +1,346 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Test Guidelines
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Authentication Endpoints
 
-## About Laravel
+### User Registration
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Endpoint:** `POST /api/register`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Description:** Register a new user.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Request:**
+```json
+{
+  "name": "Zenas",
+  "email": "zenas@gmail.com",
+  "password": "123456"
+}
+```
 
-## Learning Laravel
+**Response:**
+```json
+{
+    "name": "Zenas",
+    "email": "zenas1@gmail.com",
+    "updated_at": "2023-11-15T11:48:30.000000Z",
+    "created_at": "2023-11-15T11:48:30.000000Z",
+    "id": 2
+}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### User Login
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Endpoint:** `POST /api/login`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Description:** Authenticate a user.
 
-## Laravel Sponsors
+**Request:**
+```json
+{
+  "email": "zenas@gmail.com",
+  "password": "123456"
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Response:**
+```json
+{
+    "token": "3|jXOWgeWbixIIDPOEWp5m5i7HpShSHPC0AvPTGHlta9e0a2bd"
+}
+```
 
-### Premium Partners
+## Create Item
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+**Requires Auth**
 
-## Contributing
+**Endpoint:** `POST /api/v1/items
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Description:** Create a new item.
 
-## Code of Conduct
+**Request:**
+```json
+{
+  "description": "Book",
+  "unit_price": 22.22,
+  "quantity": 2
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Response:**
+```json
+{
+    "data": {
+        "id": 11,
+        "description": "Book",
+        "unit_price": 22.22,
+        "quantity": 2,
+        "amount": 44.44,
+        "created_at": "2023-11-15T11:50:04.000000Z",
+        "updated_at": "2023-11-15T11:50:04.000000Z"
+    }
+}
+```
 
-## Security Vulnerabilities
+## Get Items
+**Requires Auth**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Endpoint:** `GET /api/v1/items`
 
-## License
+**Description:** Retrieve a list of items.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Response:**
+- Status Code: 200 (OK)
+- List of items in the response.
+```json
+{
+  "data": [
+    {
+      "id": 2,
+      "description": "soluta",
+      "unit_price": 9.1,
+      "quantity": 67,
+      "amount": 609.7,
+      "created_at": "2023-11-15T10:34:41.000000Z",
+      "updated_at": "2023-11-15T10:34:41.000000Z"
+    },
+    {
+      "id": 3,
+      "description": "et",
+      "unit_price": 6.2,
+      "quantity": 64,
+      "amount": 396.8,
+      "created_at": "2023-11-15T10:34:41.000000Z",
+      "updated_at": "2023-11-15T10:34:41.000000Z"
+    },
+    // ... (other items)
+  ]
+}
+```
+
+## Create Customer
+**Requires Auth**
+
+**Endpoint:** `POST /api/v1/customers`
+
+**Description:** Create a new customer.
+
+**Request:**
+```json
+{
+  "name": "Zenas",
+  "email": "1234@gmail.com",
+  "phone_number": "233559616904"
+}
+```
+**Response:**
+* Status Code: 201 (Created)
+* The created customer details in the response.
+```json
+{
+  "data": {
+    "id": 7,
+    "name": "Zenas",
+    "email": "12345@gmail.com",
+    "phone_number": "233559616904",
+    "created_at": "2023-11-15T11:50:32.000000Z",
+    "updated_at": "2023-11-15T11:50:32.000000Z"
+  }
+}
+```
+
+## Create Invoice
+**Requires Auth**
+
+**Endpoint:** `POST /api/v1/invoices`
+
+**Description:** Create a new invoice.
+
+**Request:**
+```json
+{
+  "customer_id": 1,
+  "due_date": "12/12/2023",
+  "items": [
+    {
+      "item_id": 2,
+      "quantity": 1
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+    "data": {
+        "id": 3,
+        "amount": 9.1,
+        "issue_date": "2023-11-15 11:50:55",
+        "due_date": "12/12/2023",
+        "customer": {
+            "id": 1,
+            "name": "Hettie Aufderhar",
+            "email": "tristian53@hotmail.com",
+            "phone_number": "330-281-1328",
+            "created_at": "2023-11-15T10:34:41.000000Z",
+            "updated_at": "2023-11-15T10:34:41.000000Z"
+        },
+        "items": [
+            {
+                "id": 5,
+                "invoice_id": 3,
+                "item_id": 2,
+                "quantity": 1,
+                "amount": "9.10",
+                "created_at": "2023-11-15T11:50:55.000000Z",
+                "updated_at": "2023-11-15T11:50:55.000000Z"
+            }
+        ],
+        "created_at": "2023-11-15T11:50:55.000000Z",
+        "updated_at": "2023-11-15T11:50:55.000000Z"
+    }
+}
+```
+
+## Get Invoices
+**Requires Auth**
+
+**Endpoint:** `GET /api/v1/invoices`
+
+**Description:** Retrieve a list of invoices.
+
+**Response:**
+- Status Code: 200 (OK)
+- List of invoices in the response.
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "amount": "8.20",
+      "issue_date": "2023-11-15 10:35:43",
+      "due_date": "2023-12-12 00:00:00",
+      "customer": {
+        "id": 6,
+        "name": "Zenas",
+        "email": "1234@gmail.com",
+        "phone_number": "233559616904",
+        "created_at": "2023-11-15T10:35:33.000000Z",
+        "updated_at": "2023-11-15T10:35:33.000000Z"
+      },
+      "items": [
+        {
+          "id": 1,
+          "invoice_id": 1,
+          "item_id": 1,
+          "quantity": 1,
+          "amount": "5.50",
+          "created_at": "2023-11-15T10:35:43.000000Z",
+          "updated_at": "2023-11-15T10:35:43.000000Z"
+        },
+        {
+          "id": 2,
+          "invoice_id": 1,
+          "item_id": 10,
+          "quantity": 1,
+          "amount": "2.70",
+          "created_at": "2023-11-15T10:35:43.000000Z",
+          "updated_at": "2023-11-15T10:35:43.000000Z"
+        }
+      ],
+      "created_at": "2023-11-15T10:35:43.000000Z",
+      "updated_at": "2023-11-15T10:35:43.000000Z"
+    },
+    {
+      "id": 2,
+      "amount": "8.20",
+      "issue_date": "2023-11-15 11:04:44",
+      "due_date": "2023-12-12 00:00:00",
+      "customer": {
+        "id": 1,
+        "name": "Hettie Aufderhar",
+        "email": "tristian53@hotmail.com",
+        "phone_number": "330-281-1328",
+        "created_at": "2023-11-15T10:34:41.000000Z",
+        "updated_at": "2023-11-15T10:34:41.000000Z"
+      },
+      "items": [
+        {
+          "id": 3,
+          "invoice_id": 2,
+          "item_id": 1,
+          "quantity": 1,
+          "amount": "5.50",
+          "created_at": "2023-11-15T11:04:44.000000Z",
+          "updated_at": "2023-11-15T11:04:44.000000Z"
+        },
+        {
+          "id": 4,
+          "invoice_id": 2,
+          "item_id": 10,
+          "quantity": 1,
+          "amount": "2.70",
+          "created_at": "2023-11-15T11:04:44.000000Z",
+          "updated_at": "2023-11-15T11:04:44.000000Z"
+        }
+      ],
+      "created_at": "2023-11-15T11:04:44.000000Z",
+      "updated_at": "2023-11-15T11:04:44.000000Z"
+    },
+    {
+      "id": 3,
+      "amount": "9.10",
+      "issue_date": "2023-11-15 11:50:55",
+      "due_date": "2023-12-12 00:00:00",
+      "customer": {
+        "id": 1,
+        "name": "Hettie Aufderhar",
+        "email": "tristian53@hotmail.com",
+        "phone_number": "330-281-1328",
+        "created_at": "2023-11-15T10:34:41.000000Z",
+        "updated_at": "2023-11-15T10:34:41.000000Z"
+      },
+      "items": [
+        {
+          "id": 5,
+          "invoice_id": 3,
+          "item_id": 2,
+          "quantity": 1,
+          "amount": "9.10",
+          "created_at": "2023-11-15T11:50:55.000000Z",
+          "updated_at": "2023-11-15T11:50:55.000000Z"
+        }
+      ],
+      "created_at": "2023-11-15T11:50:55.000000Z",
+      "updated_at": "2023-11-15T11:50:55.000000Z"
+    },
+    {
+      "id": 4,
+      "amount": "9.10",
+      "issue_date": "2023-11-15 11:52:09",
+      "due_date": "2023-12-12 00:00:00",
+      "customer": {
+        "id": 1,
+        "name": "Hettie Aufderhar",
+        "email": "tristian53@hotmail.com",
+        "phone_number": "330-281-1328",
+        "created_at": "2023-11-15T10:34:41.000000Z",
+        "updated_at": "2023-11-15T10:34:41.000000Z"
+      },
+      "items": [
+        {
+          "id": 6,
+          "invoice_id": 4,
+          "item_id": 2,
+          "quantity": 1,
+          "amount": "9.10",
+          "created_at": "2023-11-15T11:52:09.000000Z",
+          "updated_at": "2023-11-15T11:52:09.000000Z"
+        }
+      ],
+      "created_at": "2023-11-15T11:52:09.000000Z",
+      "updated_at": "2023-11-15T11:52:09.000000Z"
+    }
+  ]
+}
+```
