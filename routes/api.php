@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post('/register', [\App\Http\Controllers\Api\V1\AuthController::class, 'register']);
+Route::post('/login', [\App\Http\Controllers\Api\V1\AuthController::class, 'login']);
 
-Route::prefix('v1')->group(function () {
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    Route::apiResource("/invoices",     InvoiceController::class)->only(['store', 'index']);
     Route::apiResource('/items', ItemController::class)->only(['store', 'index']);
     Route::apiResource("/customers", CustomerController::class)->only(['store']);
-    Route::apiResource("/invoices", InvoiceController::class)->only(['store', 'index']);
 });
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
